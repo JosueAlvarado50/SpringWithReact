@@ -1,0 +1,16 @@
+.container {
+  background-color: black;
+  text-align: right;
+  border-radius: 15px;
+  margin-bottom: 5%;
+}
+
+.buttonAddEmployee {
+  margin-top: 15px;
+  margin-right: 15px;
+  background-color: blue;
+}
+.relleno {
+  width: 100%;
+  height: 25px;
+}

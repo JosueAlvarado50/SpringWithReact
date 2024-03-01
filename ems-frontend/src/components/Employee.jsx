@@ -1,5 +1,6 @@
 import ListEmployees from "./ListEmployees";
 import { useNavigate } from "react-router-dom";
+import "./Employee.css";
 function Employee() {
   const navigator = useNavigate();
 
@@ -7,9 +8,12 @@ function Employee() {
     navigator("/add-employee");
   }
   return (
-    <div>
-      <button onClick={addNewEmployee}>Add employee</button>
+    <div className="container">
+      <button className="buttonAddEmployee" onClick={addNewEmployee}>
+        Add employee
+      </button>
       <ListEmployees></ListEmployees>
+      <div className="relleno"></div>
     </div>
   );
 }

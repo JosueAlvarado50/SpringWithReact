@@ -1,13 +1,23 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./AddEmployee.css";
-import { createEmployee } from "../../services/EmployeeService.js";
-import { useNavigate } from "react-router-dom";
+import {
+  createEmployee,
+  getEmployee,
+  updateEmployee,
+} from "../../services/EmployeeService.js";
+import { useNavigate, useParams } from "react-router-dom";
 import iconoUser from "../../assets/iconoAddUser.png";
-function AddEmployee() {
+function EditEmployee() {
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
   const emailRef = useRef(null);
   const navigator = useNavigate();
+  const { id } = useParams();
+  const [employeToEdit, setEmployeToEdit] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -23,7 +33,7 @@ function AddEmployee() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setEmployeToEdit((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -34,10 +44,22 @@ function AddEmployee() {
     }));
   };
 
-  const onAddEmployee = () => {
-    createEmployee(formData)
+  useEffect(() => {
+    if (id) {
+      getEmployee(id)
+        .then((response) => {
+          setEmployeToEdit(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [id]);
+
+  const onUpdateEmployee = () => {
+    updateEmployee(id, employeToEdit)
       .then((response) => {
-        console.log("user created");
+        console.log("user updated");
         console.log(response.data);
         navigator("/employees");
       })
@@ -51,21 +73,13 @@ function AddEmployee() {
     // Verificar si todos los campos están llenos correctamente antes de enviar el formulario
     const isFormValid = Object.values(formValidity).every((isValid) => isValid);
     if (isFormValid) {
-      onAddEmployee(formData);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-      });
-      firstNameRef.current.value = "";
-      lastNameRef.current.value = "";
-      emailRef.current.value = "";
+      onUpdateEmployee(employeToEdit);
     }
   };
 
   return (
     <div>
-      <h1>Employee Register</h1>
+      <h1>Employee {id} Editor</h1>
       <div className="card2">
         <div className="card-header">
           <img src={iconoUser} alt="User Icon" className="user-icon" />
@@ -80,7 +94,7 @@ function AddEmployee() {
               <input
                 type="text"
                 name="firstName"
-                value={formData.firstName}
+                value={employeToEdit.firstName}
                 onChange={handleChange}
                 className={`form-input ${
                   formValidity.firstName ? "" : "invalid"
@@ -91,7 +105,7 @@ function AddEmployee() {
               <input
                 type="text"
                 name="lastName"
-                value={formData.lastName}
+                value={employeToEdit.lastName}
                 onChange={handleChange}
                 className={`form-input ${
                   formValidity.lastName ? "" : "invalid"
@@ -108,7 +122,7 @@ function AddEmployee() {
                 placeholder="example@dominio"
                 type="email"
                 name="email"
-                value={formData.email}
+                value={employeToEdit.email}
                 onChange={handleChange}
                 className={`form-input ${formValidity.email ? "" : "invalid"}`}
                 ref={emailRef}
@@ -124,7 +138,7 @@ function AddEmployee() {
                 !Object.values(formValidity).every((isValid) => isValid)
               }
             >
-              Add Employee
+              Update Employee
             </button>
           </form>
         </div>
@@ -133,4 +147,4 @@ function AddEmployee() {
   );
 }
 
-export default AddEmployee;
+export default EditEmployee;

@@ -9,6 +9,7 @@ import Footer from "./components/Footer.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Employee from "./components/Employee.jsx";
 import AddEmployee from "./components/Employee/AddEmployee.jsx";
+import EditEmployee from "./components/Employee/EditEmployee.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -20,6 +21,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route
           path="/add-employee"
           element={<AddEmployee></AddEmployee>}
+        ></Route>
+        <Route
+          path="/edit-employee/:id"
+          element={<EditEmployee></EditEmployee>}
         ></Route>
       </Routes>
       <Footer></Footer>

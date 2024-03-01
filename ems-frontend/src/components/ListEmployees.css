@@ -1,9 +1,8 @@
 /* styles.css */
 
 .table-container {
-  max-width: 1200px;
-  width: 1200px;
-  margin: 50px auto;
+  width: 90%;
+  margin: 20px auto;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -43,4 +42,24 @@ th {
 th,
 td {
   border-bottom: 1px solid #ddd;
+}
+.iconoEditarcss {
+  width: 25px;
+  height: 25px;
+}
+.iconoEditarcss:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  /*will-change: filter;
+  transition: filter 300ms;*/
+}
+.logo:hover {
+}
+.buttonEdit {
+  background-size: 25px; /* Tamaño de la imagen */
+  background-repeat: no-repeat;
+  background-color: transparent;
 }
