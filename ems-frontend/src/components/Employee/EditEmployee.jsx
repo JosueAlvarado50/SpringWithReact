@@ -1,10 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "./AddEmployee.css";
-import {
-  createEmployee,
-  getEmployee,
-  updateEmployee,
-} from "../../services/EmployeeService.js";
+import { getEmployee, updateEmployee } from "../../services/EmployeeService.js";
 import { useNavigate, useParams } from "react-router-dom";
 import iconoUser from "../../assets/iconoAddUser.png";
 function EditEmployee() {
@@ -14,12 +10,6 @@ function EditEmployee() {
   const navigator = useNavigate();
   const { id } = useParams();
   const [employeToEdit, setEmployeToEdit] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-  });
-
-  const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
@@ -92,6 +82,7 @@ function EditEmployee() {
             </div>
             <div className="grid1">
               <input
+                style={{ marginTop: "10px" }}
                 type="text"
                 name="firstName"
                 value={employeToEdit.firstName}

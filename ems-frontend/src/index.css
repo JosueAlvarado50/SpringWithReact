@@ -11,6 +11,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url("./assets/fondo2.jpg"); /* Especifica la ruta de tu imagen */
+  background-size: auto; /* Ajusta el tamaño de la imagen para cubrir toda la ventana del navegador */
 }
 
 a {

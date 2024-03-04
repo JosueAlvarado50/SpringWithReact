@@ -6,9 +6,9 @@
 }
 
 .buttonAddEmployee {
+  text-align: right;
   margin-top: 15px;
   margin-right: 15px;
-  background-color: blue;
 }
 .relleno {
   width: 100%;

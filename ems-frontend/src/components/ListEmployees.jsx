@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { listEmployees } from "../services/EmployeeService";
 import iconoEditar2 from "../assets/iconoEditar2.png";
 import iconoEliminar from "../assets/iconoEliminar.png";
-import { updateEmployee, deleteEmployee } from "../services/EmployeeService";
+import { deleteEmployee } from "../services/EmployeeService";
 function ListEmployees() {
   const [employees, setEmployees] = useState([]);
   const navigator = useNavigate();
@@ -26,7 +26,6 @@ function ListEmployees() {
   }
 
   const UserData = ({ id, firstName, lastName, email }) => {
-    const employeToEdit = { id, firstName, lastName, email };
     return (
       <tr>
         <td>{id}</td>

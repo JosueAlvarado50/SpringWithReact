@@ -8,12 +8,11 @@ function Employee() {
     navigator("/add-employee");
   }
   return (
-    <div className="container">
-      <button className="buttonAddEmployee" onClick={addNewEmployee}>
-        Add employee
-      </button>
+    <div>
+      <div className="buttonAddEmployee">
+        <button onClick={addNewEmployee}>Add employee</button>
+      </div>
       <ListEmployees></ListEmployees>
-      <div className="relleno"></div>
     </div>
   );
 }
