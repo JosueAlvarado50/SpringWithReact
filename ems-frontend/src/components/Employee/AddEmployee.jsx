@@ -1,24 +1,39 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./AddEmployee.css";
 import { createEmployee } from "../../services/EmployeeService.js";
 import { useNavigate } from "react-router-dom";
 import iconoUser from "../../assets/iconoAddUser.png";
+import { departmentList } from "../../services/DepartmentService.js";
 function AddEmployee() {
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
   const emailRef = useRef(null);
+  const departmentRef = useRef(null);
+  const [departaments, setDepartaments] = useState([]);
+
   const navigator = useNavigate();
+  useEffect(() => {
+    departmentList()
+      .then((response) => {
+        setDepartaments(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
+    departmentId: "",
   });
 
   const [formValidity, setFormValidity] = useState({
     firstName: true,
     lastName: true,
     email: true,
+    departmentId: true,
   });
 
   const handleChange = (e) => {
@@ -34,19 +49,20 @@ function AddEmployee() {
     }));
   };
 
-  const onAddEmployee = () => {
+  const onAddEmployee = (formData) => {
     createEmployee(formData)
       .then((response) => {
-        console.log("user created");
+        console.log("user about to be created");
         console.log(response.data);
         navigator("/employees");
       })
-      .catch((error) => {
-        console.error(error);
+      .catch((err) => {
+        console.error(err);
       });
   };
 
   const handleSubmit = (e) => {
+    console.log("button submit");
     e.preventDefault();
     // Verificar si todos los campos están llenos correctamente antes de enviar el formulario
     const isFormValid = Object.values(formValidity).every((isValid) => isValid);
@@ -56,6 +72,7 @@ function AddEmployee() {
         firstName: "",
         lastName: "",
         email: "",
+        departmentId: "",
       });
       firstNameRef.current.value = "";
       lastNameRef.current.value = "";
@@ -102,6 +119,7 @@ function AddEmployee() {
             </div>
             <div className="grid1">
               <label>Email:</label>
+              <label>Select Department:</label>
             </div>
             <div className="grid1">
               <input
@@ -114,6 +132,26 @@ function AddEmployee() {
                 ref={emailRef}
                 required
               />
+              <select
+                style={{ backgroundColor: "transparent", color: "black" }}
+                name="select-department"
+                className={`form-input ${formValidity.email ? "" : "invalid"}`}
+                required
+                value={formData.departmentId}
+                onChange={(e) =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    departmentId: e.target.value,
+                  }))
+                }
+              >
+                <option value="Select Department">Select Department</option>
+                {departaments.map((department) => (
+                  <option key={department.id} value={department.id}>
+                    {department.departmentName}
+                  </option>
+                ))}
+              </select>
             </div>
             <br />
             <br />

@@ -14,6 +14,7 @@ function ListEmployees() {
   useEffect(() => {
     listEmployees()
       .then((response) => {
+        console.log(response.data);
         setEmployees(response.data);
         setDeletedE(false);
       })
@@ -25,13 +26,14 @@ function ListEmployees() {
     navigator(`/edit-employee/${id}`);
   }
 
-  const UserData = ({ id, firstName, lastName, email }) => {
+  const UserData = ({ id, firstName, lastName, email, department }) => {
     return (
       <tr>
         <td>{id}</td>
         <td>{firstName}</td>
         <td>{lastName}</td>
         <td>{email}</td>
+        <td style={{ textAlign: "center" }}>{department}</td>
         <td>
           <button onClick={() => updateEmployee(id)} className="buttonEdit">
             <img className="iconoEditarcss" src={iconoEditar2}></img>
@@ -61,6 +63,7 @@ function ListEmployees() {
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
+                <th>Department</th>
                 <th>Options</th>
               </tr>
             </thead>
@@ -72,6 +75,7 @@ function ListEmployees() {
                   firstName={employee.firstName}
                   lastName={employee.lastName}
                   email={employee.email}
+                  department={employee.departmentId}
                 />
               ))}
             </tbody>
@@ -87,6 +91,7 @@ ListEmployees.propTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   email: PropTypes.string,
+  department: PropTypes.number,
 };
 
 export default ListEmployees;
