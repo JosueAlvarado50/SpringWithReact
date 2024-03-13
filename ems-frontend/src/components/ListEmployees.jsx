@@ -6,10 +6,24 @@ import { listEmployees } from "../services/EmployeeService";
 import iconoEditar2 from "../assets/iconoEditar2.png";
 import iconoEliminar from "../assets/iconoEliminar.png";
 import { deleteEmployee } from "../services/EmployeeService";
+import { departmentList } from "../services/DepartmentService";
 function ListEmployees() {
   const [employees, setEmployees] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const navigator = useNavigate();
   const [deletedE, setDeletedE] = useState(false);
+
+  useEffect(() => {
+    departmentList()
+      .then((response) => {
+        console.log("Lista de departamentos: ");
+        console.log(response.data);
+        setDepartments(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [deletedE]);
 
   useEffect(() => {
     listEmployees()
@@ -25,6 +39,10 @@ function ListEmployees() {
   function updateEmployee(id) {
     navigator(`/edit-employee/${id}`);
   }
+  const getDeparmentName = (departmentId) => {
+    const department = departments.find((depa) => depa.id === departmentId);
+    return department ? department.departmentName : "Unknown";
+  };
 
   const UserData = ({ id, firstName, lastName, email, department }) => {
     return (
@@ -33,7 +51,7 @@ function ListEmployees() {
         <td>{firstName}</td>
         <td>{lastName}</td>
         <td>{email}</td>
-        <td style={{ textAlign: "center" }}>{department}</td>
+        <td style={{ textAlign: "center" }}>{getDeparmentName(department)}</td>
         <td>
           <button onClick={() => updateEmployee(id)} className="buttonEdit">
             <img className="iconoEditarcss" src={iconoEditar2}></img>
