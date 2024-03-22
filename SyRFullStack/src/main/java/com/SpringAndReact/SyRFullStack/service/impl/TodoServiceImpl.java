@@ -2,11 +2,15 @@ package com.SpringAndReact.SyRFullStack.service.impl;
 
 import com.SpringAndReact.SyRFullStack.dto.TodoDto;
 import com.SpringAndReact.SyRFullStack.entity.Todo;
+import com.SpringAndReact.SyRFullStack.exception.ResourceNotFoundException;
 import com.SpringAndReact.SyRFullStack.repository.TodoRepository;
 import com.SpringAndReact.SyRFullStack.service.TodoService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -41,14 +45,46 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public TodoDto getTodo(Long id) {
-        Todo todo = todoRepository.findById(id).get();
+        Todo todo = todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("todo Not found with id: " + id));
         return modelMapper.map(todo, TodoDto.class);
     }
 
     @Override
-    public TodoDto deleteTodo(Long id) {
+    public void deleteTodo(Long id) {
+        Todo todoDtoToDelete = todoRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Todo not found with that id: "+ id));
         todoRepository.deleteById(id);
-
-        return null;
     }
+
+    @Override
+    public TodoDto completeTodo(Long id) {
+        Todo todoToComplete = todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Todo not found"));
+        todoToComplete.setCompleted(Boolean.TRUE);
+        Todo todoCompleted = todoRepository.save(todoToComplete);
+        return modelMapper.map(todoCompleted, TodoDto.class);
+    }
+
+    @Override
+    public TodoDto inCompleteTodo(Long id) {
+        Todo todoToComplete = todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Todo not found"));
+        todoToComplete.setCompleted(Boolean.FALSE);
+        Todo todoCompleted = todoRepository.save(todoToComplete);
+        return modelMapper.map(todoCompleted, TodoDto.class);
+    }
+
+    @Override
+    public List<TodoDto> getAllTodos() {
+        List<Todo> todoList = todoRepository.findAll();
+        return todoList.stream().map((todo)-> modelMapper.map(todo, TodoDto.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public TodoDto updateDto(TodoDto todoDto, Long id) {
+        Todo todoToUpdate = todoRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("todo not found: " + id));
+        todoToUpdate.setTitle(todoDto.getTitle());
+        todoToUpdate.setDescription(todoDto.getDescription());
+        todoToUpdate.setCompleted(todoDto.isCompleted());
+        todoRepository.save(todoToUpdate);
+        return modelMapper.map(todoToUpdate, TodoDto.class);
+    }
+
 }
