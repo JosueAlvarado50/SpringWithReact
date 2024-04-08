@@ -17,6 +17,7 @@ function Header() {
           <a href="/inicio">Inicio</a>
           <a href="/employees">Employees</a>
           <a href="/departments">Departments</a>
+          <a href="/todos">Todos</a>
         </div>
       </div>
       <div className="navbar-right">

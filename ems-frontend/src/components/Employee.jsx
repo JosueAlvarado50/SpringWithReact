@@ -4,7 +4,7 @@ import "./Employee.css";
 function Employee() {
   const navigator = useNavigate();
 
-  function addNewEmployee(params) {
+  function addNewEmployee() {
     navigator("/add-employee");
   }
   return (

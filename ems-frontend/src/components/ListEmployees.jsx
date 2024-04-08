@@ -36,6 +36,7 @@ function ListEmployees() {
         console.error(error);
       });
   }, [deletedE]);
+
   function updateEmployee(id) {
     navigator(`/edit-employee/${id}`);
   }
