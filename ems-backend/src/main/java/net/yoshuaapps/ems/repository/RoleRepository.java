@@ -1,8 +1,7 @@
-package com.SpringAndReact.SyRFullStack.repository;
+package net.yoshuaapps.ems.repository;
 
-import com.SpringAndReact.SyRFullStack.entity.Role;
+import net.yoshuaapps.ems.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
-
 }
