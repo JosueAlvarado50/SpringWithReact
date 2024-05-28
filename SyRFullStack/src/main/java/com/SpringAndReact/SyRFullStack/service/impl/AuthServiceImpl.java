@@ -1,5 +1,6 @@
 package com.SpringAndReact.SyRFullStack.service.impl;
 
+import com.SpringAndReact.SyRFullStack.dto.LoginDto;
 import com.SpringAndReact.SyRFullStack.dto.RegisterDto;
 import com.SpringAndReact.SyRFullStack.entity.Role;
 import com.SpringAndReact.SyRFullStack.entity.User;
@@ -9,6 +10,10 @@ import com.SpringAndReact.SyRFullStack.repository.UserRepository;
 import com.SpringAndReact.SyRFullStack.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +29,7 @@ public class AuthServiceImpl implements AuthService  {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private AuthenticationManager authenticationManager;
 
     /**
      *
@@ -53,4 +59,15 @@ public class AuthServiceImpl implements AuthService  {
         userRepository.save(user);
         return "User registered succesfully!.";
     }
+
+    @Override
+    public String login(LoginDto loginDto) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginDto.getUsernameOrEmail(),
+                loginDto.getPassword()
+        ));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return "User login successfuly!.";
+    }
+
 }
