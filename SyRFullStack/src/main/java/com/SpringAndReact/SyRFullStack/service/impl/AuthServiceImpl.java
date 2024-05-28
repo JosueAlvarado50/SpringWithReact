@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthService  {
     public String register(RegisterDto registerDto) {
         //Check username is already in database
         if (userRepository.existsByEmail(registerDto.getUsername())){
-            throw new TodoAPIException(HttpStatus.BAD_REQUEST, "USername already exist");
+            throw new TodoAPIException(HttpStatus.BAD_REQUEST, "Username already exist");
         }
         //Check email is already exist in database
         if (userRepository.existsByEmail(registerDto.getEmail())){
