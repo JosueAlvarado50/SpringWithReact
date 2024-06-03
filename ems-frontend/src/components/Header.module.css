@@ -1,0 +1,55 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px; /* Altura fija */
+  z-index: 1000;
+  margin-top: 1%;
+}
+/* Ajustes responsivos */
+
+/* Para pantallas de laptops y desktops pequeñas */
+@media (max-width: 1200px) {
+  #root {
+    width: 100%;
+  }
+}
+
+/* Para tablets (horizontal) */
+@media (max-width: 992px) {
+  #root {
+    width: 100%;
+  }
+}
+
+/* Para tablets (vertical) */
+@media (max-width: 768px) {
+  #root {
+    width: 100%;
+  }
+}
+
+/* Para teléfonos móviles grandes */
+@media (max-width: 576px) {
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: auto;
+    z-index: 1000;
+    margin-top: 1%;
+    background-color: green;
+  }
+}
+
+/* Para teléfonos móviles pequeños */
+@media (max-width: 400px) {
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px; /* Altura fija */
+    z-index: 1000;
+    margin-top: 1%;
+  }
+}
