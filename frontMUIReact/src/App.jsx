@@ -34,7 +34,7 @@ function App() {
         }}
       >
         <Container
-          component={Paper} // Para agregar un fondo blanco con sombras
+          component="div" // Para agregar un fondo blanco con sombras
           sx={{
             flex: 1, // Para ocupar todo el espacio disponible
             display: "flex",
@@ -42,7 +42,7 @@ function App() {
             justifyContent: "space-between", // Distribuir el contenido con espacio entre Navbar, contenido principal y Footer
             mt: 9,
             mb: 4,
-            p: 4,
+            disableGutters: true,
             backgroundColor: "rgba(255, 255, 255, 255)", // Fondo blanco con transparencia
             borderRadius: "15px",
             boxShadow: 3,

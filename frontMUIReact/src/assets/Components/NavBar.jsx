@@ -19,8 +19,6 @@ import styles from "./Navbar.module.css";
 const pages = ["Home", "Users", "Departments"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-//TODO:------- estilos------------------------>
-
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -100,8 +98,8 @@ const Navbar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+              {pages.map((page, index) => (
+                <MenuItem key={index} onClick={handleCloseNavMenu}>
                   <Typography
                     component={Link}
                     to={`/${page}`}
@@ -133,30 +131,17 @@ const Navbar = () => {
             YOSHUA
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <>
-                <NavLink
-                  to={`/${page}`}
-                  onClick={handleCloseNavMenu}
-                  className={({ isActive }) =>
-                    isActive ? styles.navLinkActive : styles.navLink
-                  }
-                >
-                  {page}
-                </NavLink>
-                {/** 
-                <Button
-                  component={Link}
-                  to={`/${page}`}
-                  textalign="center"
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {page}
-                </Button>
-                */}
-              </>
+            {pages.map((page, index) => (
+              <NavLink
+                key={index}
+                to={`/${page}`}
+                onClick={handleCloseNavMenu}
+                className={({ isActive }) =>
+                  isActive ? styles.navLinkActive : styles.navLink
+                }
+              >
+                {page}
+              </NavLink>
             ))}
           </Box>
 
@@ -179,29 +164,6 @@ const Navbar = () => {
                 Login
               </NavLink>
             </Box>
-
-            {/* <Button
-              variant="text"
-              sx={{
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                color: "white",
-                textTransform: "none",
-                letterSpacing: ".2rem",
-                textDecoration: "none",
-                mr: 2,
-              }}
-            >
-              <Typography
-                sx={{ textDecoration: "none", color: "white" }}
-                component={Link}
-                to="/login"
-                variant="h6"
-              >
-                Login
-              </Typography>
-            </Button> */}
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -223,8 +185,8 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+              {settings.map((setting, index) => (
+                <MenuItem key={index} onClick={handleCloseUserMenu}>
                   <Typography textalign="center">{setting}</Typography>
                 </MenuItem>
               ))}

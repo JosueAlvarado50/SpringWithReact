@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <Box
       component="footer"
-      sx={{ backgroundColor: "#333", color: "#fff", py: 3, mt: 5 }}
+      sx={{ backgroundColor: "#333", color: "#fff", py: 2 }}
     >
       <Grid container spacing={2} justifyContent="center">
         <Grid item xs={12} md={4} sx={{ pl: 2, textAlign: "center" }}>
