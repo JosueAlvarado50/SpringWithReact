@@ -11,11 +11,15 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import AppleIcon from "@mui/icons-material/Apple";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import styles from "./Navbar.module.css";
 
 const pages = ["Home", "Users", "Departments"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
+
+//TODO:------- estilos------------------------>
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -48,7 +52,7 @@ const Navbar = () => {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <AppleIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -130,35 +134,74 @@ const Navbar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Button
-                component={Link}
-                to={`/${page}`}
-                textalign="center"
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
+              <>
+                <NavLink
+                  to={`/${page}`}
+                  onClick={handleCloseNavMenu}
+                  className={({ isActive }) =>
+                    isActive ? styles.navLinkActive : styles.navLink
+                  }
+                >
+                  {page}
+                </NavLink>
+                {/** 
+                <Button
+                  component={Link}
+                  to={`/${page}`}
+                  textalign="center"
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+                */}
+              </>
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
-            <Button
-              component={Link}
-              to="/login"
+          <Box
+            sx={{
+              flexGrow: 0,
+              display: { xs: "flex", md: "flex" },
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{ mr: 1, flexGrow: 1, display: { xs: "none", md: "flex" } }}
+            >
+              <NavLink
+                to="/Login"
+                className={({ isActive }) =>
+                  isActive ? styles.navLinkActive : styles.navLink
+                }
+              >
+                Login
+              </NavLink>
+            </Box>
+
+            {/* <Button
               variant="text"
               sx={{
-                color: "white",
-                textTransform: "none",
+                display: { xs: "none", md: "flex" },
                 fontFamily: "monospace",
                 fontWeight: 700,
-                letterSpacing: ".1rem",
+                color: "white",
+                textTransform: "none",
+                letterSpacing: ".2rem",
+                textDecoration: "none",
                 mr: 2,
               }}
             >
-              Login
-            </Button>
+              <Typography
+                sx={{ textDecoration: "none", color: "white" }}
+                component={Link}
+                to="/login"
+                variant="h6"
+              >
+                Login
+              </Typography>
+            </Button> */}
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
