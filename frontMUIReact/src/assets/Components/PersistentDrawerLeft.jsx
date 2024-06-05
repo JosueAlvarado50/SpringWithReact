@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Typography,
   Box,
   Drawer,
   IconButton,
@@ -14,11 +15,15 @@ import {
 import {
   Inbox as InboxIcon,
   Mail as MailIcon,
-  Menu as MenuIcon,
+  ArrowBack as ArrowBackIcon,
+  ArrowForward as ArrowForwardIcon,
 } from "@mui/icons-material";
+import GroupIcon from "@mui/icons-material/Group";
+import BusinessIcon from "@mui/icons-material/Business";
+import EngineeringIcon from "@mui/icons-material/Engineering";
 
 const drawerWidth = 240;
-const minimizedWidth = 60;
+const minimizedWidth = 52;
 
 export default function PersistentDrawerLeft({ open, toggleDrawer }) {
   return (
@@ -29,36 +34,75 @@ export default function PersistentDrawerLeft({ open, toggleDrawer }) {
         sx={{
           width: open ? drawerWidth : minimizedWidth,
           flexShrink: 0,
+          whiteSpace: "nowrap",
           "& .MuiDrawer-paper": {
             width: open ? drawerWidth : minimizedWidth,
             boxSizing: "border-box",
             transition: "width 0.3s",
             position: "fixed",
             top: 90, // altura de la AppBar
-            height: "calc(100% - 64px)", // para ocupar toda la altura menos la AppBar
+            bottom: 0,
+            overflow: "hidden", // Ocultar scroll horizontal y vertical
+            backgroundColor: "#405c4c", // Color de fondo del Drawer
+            color: "#FFFFFF", // Color del texto
           },
         }}
       >
-        <Toolbar />
-        <Box sx={{ overflow: "auto" }}>
+        <Toolbar>
+          <Box sx={{ flexGrow: 1 }} />
+        </Toolbar>
+        <Box
+          sx={{
+            overflowY: "auto", // Permitir solo scroll vertical
+            overflowX: "hidden", // Ocultar scroll horizontal
+            width: open ? drawerWidth : minimizedWidth,
+          }}
+        >
           <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                {open && <ListItemText primary={text} />}
-              </ListItem>
-            ))}
+            {open && (
+              <Typography variant="h6" sx={{ pl: 1, pt: 2, color: "#FFFFFF" }}>
+                SpringBoot and React
+              </Typography>
+            )}
+            <ListItem button>
+              <ListItemIcon>
+                <GroupIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              {open && (
+                <ListItemText primary="Employees" sx={{ color: "#FFFFFF" }} />
+              )}
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <BusinessIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              {open && (
+                <ListItemText primary="Departments" sx={{ color: "#FFFFFF" }} />
+              )}
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <EngineeringIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              {open && (
+                <ListItemText primary="Todos" sx={{ color: "#FFFFFF" }} />
+              )}
+            </ListItem>
           </List>
-          <Divider />
+          <Divider sx={{ borderColor: "#FFFFFF" }} />
           <List>
             {["All mail", "Trash", "Spam"].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {index % 2 === 0 ? (
+                    <InboxIcon sx={{ color: "#FFFFFF" }} />
+                  ) : (
+                    <MailIcon sx={{ color: "#FFFFFF" }} />
+                  )}
                 </ListItemIcon>
-                {open && <ListItemText primary={text} />}
+                {open && (
+                  <ListItemText primary={text} sx={{ color: "#FFFFFF" }} />
+                )}
               </ListItem>
             ))}
           </List>
@@ -66,17 +110,23 @@ export default function PersistentDrawerLeft({ open, toggleDrawer }) {
       </Drawer>
       <IconButton
         color="inherit"
-        aria-label="open drawer"
+        aria-label="toggle drawer"
         onClick={toggleDrawer}
-        edge="start"
+        edge="end"
         sx={{
+          backgroundColor: "black",
+          color: "white",
           position: "fixed",
-          top: 64, // altura de la AppBar para que no se superponga
-          left: open ? drawerWidth - 40 : minimizedWidth - 40,
+          top: 110, // Ajusta según sea necesario
+          left: open ? drawerWidth - 10 : minimizedWidth - 10,
+          zIndex: 1300, // Asegura que esté por encima del drawer
           transition: "left 0.3s",
+          "&:hover": {
+            backgroundColor: "black",
+          },
         }}
       >
-        <MenuIcon />
+        {open ? <ArrowBackIcon /> : <ArrowForwardIcon />}
       </IconButton>
     </Box>
   );

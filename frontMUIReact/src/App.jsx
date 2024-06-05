@@ -12,7 +12,6 @@ import SignUp from "./assets/Components/Pages/SignUp";
 import PersistentDrawerLeft from "./assets/Components/PersistentDrawerLeft";
 
 function App() {
-  const [count, setCount] = useState(0);
   const [open, setOpen] = useState(true);
 
   const toggleDrawer = () => {
@@ -52,15 +51,12 @@ function App() {
           }}
         >
           <Navbar />
-          <PersistentDrawerLeft
-            open={open}
-            toggleDrawer={toggleDrawer}
-          ></PersistentDrawerLeft>
+          <PersistentDrawerLeft open={open} toggleDrawer={toggleDrawer} />
           <Routes>
-            <Route path="/" element={<Home />}></Route>
-            <Route path="/Home" element={<Home />}></Route>
-            <Route path="/Login" element={<SignIn />}></Route>
-            <Route path="/SignUp" element={<SignUp />}></Route>
+            <Route path="/" element={<Home />} />
+            <Route path="/Home" element={<Home />} />
+            <Route path="/Login" element={<SignIn />} />
+            <Route path="/SignUp" element={<SignUp />} />
           </Routes>
           <Footer />
         </Container>
