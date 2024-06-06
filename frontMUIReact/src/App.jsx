@@ -43,7 +43,7 @@ function App() {
             mt: 9,
             mb: 4,
             disableGutters: true,
-            backgroundColor: "rgba(255, 255, 255, 255)", // Fondo blanco con transparencia
+            backgroundColor: "rgba(255, 255, 255, 0)", // Fondo blanco con transparencia
             borderRadius: "15px",
             boxShadow: 3,
             maxWidth: "md", // Anchura máxima para el contenido centrado

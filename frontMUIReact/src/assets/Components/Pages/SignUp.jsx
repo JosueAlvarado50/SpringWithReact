@@ -12,6 +12,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import CircularProgress from "@mui/material/CircularProgress";
+import { registerAPICall } from "../services/AuthService";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -34,38 +39,80 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  //TODO: maneja el estado completo para el registro,
+  const navigator = useNavigate();
   const [form, setForm] = useState({
     name: "",
     username: "",
     email: "",
     password: "",
   });
-  //TODO: setea el estado al valor  de los campos de manera dinamica.
+
+  const [errors, setErrors] = useState({
+    name: false,
+    username: false,
+    email: false,
+    password: false,
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
       ...prevForm,
       [name]: value,
     }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: false,
+    }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(form);
 
-    {
-      /*const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    }); */
+    const newErrors = {
+      name: form.name === "",
+      username: form.username === "",
+      email: form.email === "",
+      password: form.password === "",
+    };
+
+    setErrors(newErrors);
+
+    const hasErrors = Object.values(newErrors).some((error) => error);
+
+    if (hasErrors) {
+      setSnackbarMessage("Please complete all required fields.");
+      setOpenSnackbar(true);
+    } else {
+      setLoading(true);
+      registerAPICall(form)
+        .then((response) => {
+          console.log(response.data);
+          console.log("user registered");
+          navigator("/Login");
+        })
+        .catch((error) => {
+          console.log(error);
+          setSnackbarMessage("Registration failed. Please try again.");
+          setOpenSnackbar(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container
+        component="main"
+        maxWidth="xs"
+        sx={{ backgroundColor: "whitesmoke", borderRadius: "25px" }}
+      >
         <CssBaseline />
         <Box
           sx={{
@@ -99,6 +146,8 @@ export default function SignUp() {
                   autoFocus
                   value={form.name}
                   onChange={handleChange}
+                  error={errors.name}
+                  helperText={errors.name ? "First name is required." : ""}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -111,6 +160,8 @@ export default function SignUp() {
                   autoComplete="family-name"
                   value={form.username}
                   onChange={handleChange}
+                  error={errors.username}
+                  helperText={errors.username ? "Username is required." : ""}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -123,6 +174,8 @@ export default function SignUp() {
                   autoComplete="email"
                   value={form.email}
                   onChange={handleChange}
+                  error={errors.email}
+                  helperText={errors.email ? "Email is required." : ""}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -136,6 +189,8 @@ export default function SignUp() {
                   autoComplete="new-password"
                   value={form.password}
                   onChange={handleChange}
+                  error={errors.password}
+                  helperText={errors.password ? "Password is required." : ""}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -147,14 +202,30 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
+            <Box sx={{ m: 2, position: "relative" }}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                disabled={loading}
+                sx={{ backgroundColor: "#5a7d6d", borderRadius: "25px" }}
+              >
+                Sign Up
+              </Button>
+              {loading && (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-12px",
+                    marginLeft: "-12px",
+                  }}
+                />
+              )}
+            </Box>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/Login" variant="body2">
@@ -165,6 +236,20 @@ export default function SignUp() {
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={() => setOpenSnackbar(false)}
+        >
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            onClose={() => setOpenSnackbar(false)}
+            severity="error"
+          >
+            {snackbarMessage}
+          </MuiAlert>
+        </Snackbar>
       </Container>
     </ThemeProvider>
   );

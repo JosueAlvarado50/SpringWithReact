@@ -32,3 +32,16 @@
   font-family: monospace;
   margin-right: 1%;
 }
+.buttonLogin {
+  margin: 8px 16px 8px 0;
+  color: white;
+  display: block;
+  border: 1px solid white;
+  border-radius: 25px;
+  text-transform: none;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}

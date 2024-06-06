@@ -40,7 +40,7 @@ export default function PersistentDrawerLeft({ open, toggleDrawer }) {
             boxSizing: "border-box",
             transition: "width 0.3s",
             position: "fixed",
-            top: 90, // altura de la AppBar
+            top: 88, // altura de la AppBar
             bottom: 0,
             overflow: "hidden", // Ocultar scroll horizontal y vertical
             backgroundColor: "#405c4c", // Color de fondo del Drawer

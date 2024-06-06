@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,6 +12,12 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { CircularProgress } from "@mui/material";
+import { loginAPICall } from "../services/AuthService";
+//TODO:falta agregar APiCall
 
 function Copyright(props) {
   return (
@@ -36,13 +42,63 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
+  const navigator = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const [form, setForm] = useState({
+    usernameOrEmail: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({
+    usernameOrEmail: false,
+    password: false,
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: false,
+    }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const newErrors = {
+      usernameOrEmail: form.usernameOrEmail === "",
+      password: form.password === "",
+    };
+
+    setErrors(newErrors);
+
+    const hasErrors = Object.values(newErrors).some((error) => error);
+
+    if (hasErrors) {
+      setSnackbarMessage("Please complete all required fields.");
+      setOpenSnackbar(true);
+    } else {
+      setLoading(true);
+      loginAPICall(form)
+        .then((response) => {
+          console.log(response.data);
+          console.log("Login successfuly");
+          navigator("/");
+        })
+        .catch((error) => {
+          console.log(error);
+          setSnackbarMessage("Registration failed. Please try again.");
+          setOpenSnackbar(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -92,21 +148,29 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
+                id="usernameOrEmail"
                 label="Email Address"
-                name="email"
+                name="usernameOrEmail"
                 autoComplete="email"
                 autoFocus
+                value={form.usernameOrEmail}
+                onChange={handleChange}
+                error={errors.nameOrEmail}
+                helperText={errors.nameOrEmail ? "email is required." : ""}
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
+                value={form.password}
+                onChange={handleChange}
                 name="password"
                 label="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                error={errors.password}
+                helperText={errors.password ? "password is required." : ""}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -115,11 +179,29 @@ export default function SignInSide() {
               <Button
                 type="submit"
                 fullWidth
+                disabled={loading}
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "#5a7d6d",
+                  borderRadius: "25px",
+                }}
               >
                 Sign In
               </Button>
+              {loading && (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-12px",
+                    marginLeft: "-12px",
+                  }}
+                />
+              )}
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
@@ -133,6 +215,20 @@ export default function SignInSide() {
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
+              <Snackbar
+                open={openSnackbar}
+                autoHideDuration={6000}
+                onClose={() => setOpenSnackbar(false)}
+              >
+                <MuiAlert
+                  elevation={6}
+                  variant="filled"
+                  onClose={() => setOpenSnackbar(false)}
+                  severity="error"
+                >
+                  {snackbarMessage}
+                </MuiAlert>
+              </Snackbar>
             </Box>
           </Box>
         </Grid>

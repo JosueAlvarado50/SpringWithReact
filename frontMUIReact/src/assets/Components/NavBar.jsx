@@ -153,19 +153,42 @@ const Navbar = () => {
             }}
           >
             <Box
-              sx={{ mr: 1, flexGrow: 1, display: { xs: "none", md: "flex" } }}
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", md: "flex" },
+                alignItems: "center",
+              }}
             >
-              <NavLink
+              <Button
+                component={Link}
                 to="/Login"
-                className={({ isActive }) =>
-                  isActive ? styles.navLinkActive : styles.navLink
-                }
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  marginRight: 2,
+                  border: "1px solid white",
+                  borderRadius: "25px",
+                }}
               >
-                Login
-              </NavLink>
+                Sign In
+              </Button>
+              <Button
+                component={Link}
+                to="/SignUp"
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  border: "1px solid white",
+                  borderRadius: "25px",
+                }}
+              >
+                Sign Up
+              </Button>
             </Box>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, ml: 2 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
