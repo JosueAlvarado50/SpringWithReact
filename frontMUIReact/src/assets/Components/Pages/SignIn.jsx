@@ -16,7 +16,11 @@ import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { CircularProgress } from "@mui/material";
-import { loginAPICall, storedToken } from "../services/AuthService";
+import {
+  loginAPICall,
+  saveLoggedInUser,
+  storedToken,
+} from "../services/AuthService";
 //TODO:falta agregar APiCall
 
 function Copyright(props) {
@@ -90,7 +94,9 @@ export default function SignInSide() {
           const token =
             "Basic" + window.btoa(form.usernameOrEmail + ":" + form.password);
           storedToken(token);
+          saveLoggedInUser(form.usernameOrEmail);
           navigator("/");
+          window.location.reload(false);
         })
         .catch((error) => {
           console.log(error);

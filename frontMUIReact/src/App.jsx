@@ -1,21 +1,22 @@
 import { useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./assets/Components/NavBar";
 import Footer from "./assets/Components/Footer";
 import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper"; // Para el fondo
-import SignIn from "./assets/Components/Pages/SignIn";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./assets/Components/Pages/Home";
+import SignIn from "./assets/Components/Pages/SignIn";
 import SignUp from "./assets/Components/Pages/SignUp";
 import PersistentDrawerLeft from "./assets/Components/PersistentDrawerLeft";
 import Department from "./assets/Components/Department/Department";
 import AddDepartment from "./assets/Components/Department/AddDepartment";
 import EditDepartment from "./assets/Components/Department/EditDepartment";
+import { isUserLoggedIn } from "./assets/Components/services/AuthService";
+import PrivateRoute from "./assets/Components/PrivateRoute";
 
 function App() {
   const [open, setOpen] = useState(true);
+  const isAuth = isUserLoggedIn();
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -33,27 +34,28 @@ function App() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          p: 2, // Espacio alrededor del contenido
+          p: 2,
         }}
       >
-        <PersistentDrawerLeft open={open} toggleDrawer={toggleDrawer} />
+        {isAuth && (
+          <PersistentDrawerLeft open={open} toggleDrawer={toggleDrawer} />
+        )}
 
         <Container
-          component="div" // Para agregar un fondo blanco con sombras
+          component="div"
           sx={{
-            flex: 1, // Para ocupar todo el espacio disponible
+            flex: 1,
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between", // Distribuir el contenido con espacio entre Navbar, contenido principal y Footer
+            justifyContent: "space-between",
             mt: 9,
             mb: 4,
-
             disableGutters: true,
-            backgroundColor: "rgba(255, 255, 255, 0)", // Fondo blanco con transparencia
+            backgroundColor: "rgba(255, 255, 255, 0)",
             borderRadius: "15px",
             boxShadow: 3,
-            maxWidth: "md", // Anchura máxima para el contenido centrado
-            minHeight: "100vh", // Para que el container ocupe toda la altura de la pantalla
+            maxWidth: "md",
+            minHeight: "100vh",
           }}
         >
           <Navbar />
@@ -62,11 +64,16 @@ function App() {
             <Route path="/Home" element={<Home />} />
             <Route path="/Login" element={<SignIn />} />
             <Route path="/SignUp" element={<SignUp />} />
-            <Route path="/Departments" element={<Department />} />
-            <Route path="/add-department" element={<AddDepartment />} />
-            <Route path="/edit-department/:id" element={<EditDepartment />} />
+            <Route element={<PrivateRoute isAuth={isAuth} />}>
+              <Route path="/Departments" element={<Department />} />
+              <Route path="/add-department" element={<AddDepartment />} />
+              <Route path="/edit-department/:id" element={<EditDepartment />} />
+            </Route>
+            <Route
+              path="*"
+              element={<Navigate to={isAuth ? "/Home" : "/Login"} replace />}
+            />
           </Routes>
-
           <Footer />
         </Container>
       </Box>

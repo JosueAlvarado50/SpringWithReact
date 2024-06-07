@@ -15,8 +15,9 @@ import AppleIcon from "@mui/icons-material/Apple";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import styles from "./Navbar.module.css";
+import { isUserLoggedIn } from "./services/AuthService";
 
-const pages = ["Home", "Users", "Departments"];
+const pages = ["Home"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
@@ -38,6 +39,8 @@ const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const isAuth = isUserLoggedIn();
 
   return (
     <AppBar
@@ -159,39 +162,45 @@ const Navbar = () => {
                 alignItems: "center",
               }}
             >
-              <Button
-                component={Link}
-                to="/Login"
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  marginRight: 2,
-                  border: "1px solid white",
-                  borderRadius: "25px",
-                }}
-              >
-                Sign In
-              </Button>
-              <Button
-                component={Link}
-                to="/SignUp"
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  border: "1px solid white",
-                  borderRadius: "25px",
-                }}
-              >
-                Sign Up
-              </Button>
+              {!isAuth && (
+                <Button
+                  component={Link}
+                  to="/Login"
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    marginRight: 2,
+                    border: "1px solid white",
+                    borderRadius: "25px",
+                  }}
+                >
+                  Sign In
+                </Button>
+              )}
+              {!isAuth && (
+                <Button
+                  component={Link}
+                  to="/SignUp"
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    border: "1px solid white",
+                    borderRadius: "25px",
+                  }}
+                >
+                  Sign Up
+                </Button>
+              )}
             </Box>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, ml: 2 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+            {isAuth && (
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, ml: 2 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+            )}
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
