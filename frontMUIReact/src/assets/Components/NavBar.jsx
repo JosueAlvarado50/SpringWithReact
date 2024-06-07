@@ -13,9 +13,9 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import AppleIcon from "@mui/icons-material/Apple";
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
-import { isUserLoggedIn } from "./services/AuthService";
+import { isUserLoggedIn, logout } from "./services/AuthService";
 
 const pages = ["Home"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -23,6 +23,7 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigator = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -41,6 +42,11 @@ const Navbar = () => {
   };
 
   const isAuth = isUserLoggedIn();
+
+  function handleLogout() {
+    logout();
+    navigator("/Home");
+  }
 
   return (
     <AppBar
@@ -217,11 +223,18 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting, index) => (
-                <MenuItem key={index} onClick={handleCloseUserMenu}>
-                  <Typography textalign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem key="Profile" onClick={handleCloseUserMenu}>
+                <Typography textalign="center">Profile</Typography>
+              </MenuItem>
+              <MenuItem key="Account" onClick={handleCloseUserMenu}>
+                <Typography textalign="center">Account</Typography>
+              </MenuItem>
+              <MenuItem key="Dashboard" onClick={handleCloseUserMenu}>
+                <Typography textalign="center">Dashboard</Typography>
+              </MenuItem>
+              <MenuItem key="Logout" onClick={handleLogout}>
+                <Typography textalign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
