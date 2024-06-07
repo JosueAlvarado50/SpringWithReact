@@ -13,17 +13,25 @@ export const departmentList = () => {
 };
 
 export const getDepartmentById = (id) => {
-  return axios.get(REST_API_BASE_URL + "/" + id);
+  return axios.get(REST_API_BASE_URL + "/" + id, {
+    headers: headers,
+  });
 };
 
 export const createDepartment = (department) => {
-  return axios.post(REST_API_BASE_URL, department);
+  return axios.post(REST_API_BASE_URL, department, {
+    headers: headers,
+  });
 };
 
 export const updateDepartment = (id, department) => {
-  return axios.put(REST_API_BASE_URL + "/" + id, department);
+  return axios.put(REST_API_BASE_URL + "/" + id, department, {
+    headers: headers,
+  });
 };
 
 export const deleteDepartment = (id) => {
-  return axios.delete(REST_API_BASE_URL + "/" + id);
+  return axios.delete(REST_API_BASE_URL + "/" + id, {
+    headers: headers,
+  });
 };

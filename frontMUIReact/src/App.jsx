@@ -11,6 +11,8 @@ import Home from "./assets/Components/Pages/Home";
 import SignUp from "./assets/Components/Pages/SignUp";
 import PersistentDrawerLeft from "./assets/Components/PersistentDrawerLeft";
 import Department from "./assets/Components/Department/Department";
+import AddDepartment from "./assets/Components/Department/AddDepartment";
+import EditDepartment from "./assets/Components/Department/EditDepartment";
 
 function App() {
   const [open, setOpen] = useState(true);
@@ -61,6 +63,8 @@ function App() {
             <Route path="/Login" element={<SignIn />} />
             <Route path="/SignUp" element={<SignUp />} />
             <Route path="/Departments" element={<Department />} />
+            <Route path="/add-department" element={<AddDepartment />} />
+            <Route path="/edit-department/:id" element={<EditDepartment />} />
           </Routes>
 
           <Footer />
