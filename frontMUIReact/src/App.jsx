@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./assets/Components/Pages/Home";
 import SignUp from "./assets/Components/Pages/SignUp";
 import PersistentDrawerLeft from "./assets/Components/PersistentDrawerLeft";
+import Department from "./assets/Components/Department/Department";
 
 function App() {
   const [open, setOpen] = useState(true);
@@ -33,6 +34,8 @@ function App() {
           p: 2, // Espacio alrededor del contenido
         }}
       >
+        <PersistentDrawerLeft open={open} toggleDrawer={toggleDrawer} />
+
         <Container
           component="div" // Para agregar un fondo blanco con sombras
           sx={{
@@ -42,6 +45,7 @@ function App() {
             justifyContent: "space-between", // Distribuir el contenido con espacio entre Navbar, contenido principal y Footer
             mt: 9,
             mb: 4,
+
             disableGutters: true,
             backgroundColor: "rgba(255, 255, 255, 0)", // Fondo blanco con transparencia
             borderRadius: "15px",
@@ -51,13 +55,14 @@ function App() {
           }}
         >
           <Navbar />
-          <PersistentDrawerLeft open={open} toggleDrawer={toggleDrawer} />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/Home" element={<Home />} />
             <Route path="/Login" element={<SignIn />} />
             <Route path="/SignUp" element={<SignUp />} />
+            <Route path="/Departments" element={<Department />} />
           </Routes>
+
           <Footer />
         </Container>
       </Box>

@@ -1,0 +1,42 @@
+import React from "react";
+import ListDepartment from "./ListDepartment";
+import { Link } from "react-router-dom";
+import { Box, Button } from "@mui/material";
+
+function Department() {
+  return (
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          mb: 2,
+        }}
+      >
+        <Button
+          component={Link}
+          to="/add-department"
+          sx={{
+            textAlign: "center",
+            width: {
+              xs: "auto",
+              sm: "auto",
+            },
+            color: "white",
+            backgroundColor: "green",
+            border: "1px solid white",
+            borderRadius: "25px",
+            mt: 1,
+          }}
+        >
+          Add department
+        </Button>
+      </Box>
+      <Box>
+        <ListDepartment />
+      </Box>
+    </>
+  );
+}
+
+export default Department;
