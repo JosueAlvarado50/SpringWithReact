@@ -70,7 +70,7 @@ function ListDepartment() {
       sx={{
         borderRadius: "10px",
         ml: { xs: 3, sm: 3, md: 3, lg: 3, xl: 0 },
-        mt: { xs: -15, sm: -20, md: -35 },
+        mt: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 },
       }}
       component={Paper}
     >

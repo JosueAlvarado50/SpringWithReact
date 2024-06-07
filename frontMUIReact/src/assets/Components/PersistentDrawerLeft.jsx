@@ -21,11 +21,22 @@ import {
 import GroupIcon from "@mui/icons-material/Group";
 import BusinessIcon from "@mui/icons-material/Business";
 import EngineeringIcon from "@mui/icons-material/Engineering";
+import { Link, useLocation } from "react-router-dom";
+import { styled } from "@mui/system";
 
 const drawerWidth = 240;
 const minimizedWidth = 52;
 
+const StyledListItem = styled(ListItem)(({ theme, selected }) => ({
+  backgroundColor: selected ? "white" : "inherit",
+  color: selected ? "black" : "#FFFFFF",
+  "& .MuiListItemIcon-root": {
+    color: selected ? "black" : "#FFFFFF",
+  },
+}));
+
 export default function PersistentDrawerLeft({ open, toggleDrawer }) {
+  const location = useLocation();
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -72,14 +83,26 @@ export default function PersistentDrawerLeft({ open, toggleDrawer }) {
                 <ListItemText primary="Employees" sx={{ color: "#FFFFFF" }} />
               )}
             </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <BusinessIcon sx={{ color: "#FFFFFF" }} />
-              </ListItemIcon>
-              {open && (
-                <ListItemText primary="Departments" sx={{ color: "#FFFFFF" }} />
-              )}
-            </ListItem>
+            <StyledListItem
+              button
+              selected={location.pathname === "/Departments"}
+            >
+              <Link
+                to="/Departments"
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                  display: "flex",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <ListItemIcon>
+                  <BusinessIcon />
+                </ListItemIcon>
+                {open && <ListItemText primary="Departments" />}
+              </Link>
+            </StyledListItem>
             <ListItem button>
               <ListItemIcon>
                 <EngineeringIcon sx={{ color: "#FFFFFF" }} />

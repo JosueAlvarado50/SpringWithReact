@@ -5,7 +5,13 @@ import { Box, Button } from "@mui/material";
 
 function Department() {
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh", // Hace que el contenedor ocupe toda la altura de la ventana
+      }}
+    >
       <Box
         sx={{
           display: "flex",
@@ -32,10 +38,15 @@ function Department() {
           Add department
         </Button>
       </Box>
-      <Box>
+      <Box
+        sx={{
+          flexGrow: 1,
+          overflowY: "auto", // Permite el desplazamiento vertical
+        }}
+      >
         <ListDepartment />
       </Box>
-    </>
+    </Box>
   );
 }
 
