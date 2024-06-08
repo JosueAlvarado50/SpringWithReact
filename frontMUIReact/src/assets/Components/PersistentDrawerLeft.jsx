@@ -114,6 +114,35 @@ export default function PersistentDrawerLeft({ open, toggleDrawer }) {
           </List>
           <Divider sx={{ borderColor: "#FFFFFF" }} />
           <List>
+            {open && (
+              <Typography variant="h6" sx={{ pl: 1, pt: 2, color: "#FFFFFF" }}>
+                Food Order App
+              </Typography>
+            )}
+
+            <StyledListItem
+              button
+              selected={location.pathname === "/FoodOrderHomePage"}
+            >
+              <Link
+                to="/FoodOrderHomePage"
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                  display: "flex",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <ListItemIcon>
+                  <BusinessIcon />
+                </ListItemIcon>
+                {open && <ListItemText primary="Meals" />}
+              </Link>
+            </StyledListItem>
+          </List>
+          <Divider sx={{ borderColor: "#FFFFFF" }} />
+          <List>
             {["All mail", "Trash", "Spam"].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>

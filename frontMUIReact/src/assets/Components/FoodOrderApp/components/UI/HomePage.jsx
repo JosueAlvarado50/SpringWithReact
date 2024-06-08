@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import CartProvider from "../../store/CartProvider";
+import Cart from "../Cart/Cart";
+import { Container, Box } from "@mui/material";
+import Header from "../Layout/Header";
 
 function HomePage() {
   const [cartIsShowCart, setCartIsShowCart] = useState(false);
@@ -13,9 +16,20 @@ function HomePage() {
   };
 
   return (
-    <div>
-      <CartProvider></CartProvider>
-    </div>
+    <Box
+      sx={{
+        borderRadius: "5px",
+        backgroundColor: "#3f3f3f",
+        minHeight: "100vh",
+      }}
+    >
+      <CartProvider>
+        <Header onShowCart={showCartHandler} />
+        <Container maxWidth="md">
+          {cartIsShowCart && <Cart onHideCart={hideCartHandler}></Cart>}
+        </Container>
+      </CartProvider>
+    </Box>
   );
 }
 

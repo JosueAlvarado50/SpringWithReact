@@ -13,6 +13,7 @@ import AddDepartment from "./assets/Components/Department/AddDepartment";
 import EditDepartment from "./assets/Components/Department/EditDepartment";
 import { isUserLoggedIn } from "./assets/Components/services/AuthService";
 import PrivateRoute from "./assets/Components/PrivateRoute";
+import HomePage from "./assets/Components/FoodOrderApp/components/UI/HomePage";
 
 function App() {
   const [open, setOpen] = useState(true);
@@ -64,6 +65,7 @@ function App() {
             <Route path="/Home" element={<Home />} />
             <Route path="/Login" element={<SignIn />} />
             <Route path="/SignUp" element={<SignUp />} />
+            {/** Rutas para Department */}
             <Route element={<PrivateRoute isAuth={isAuth} />}>
               <Route path="/Departments" element={<Department />} />
               <Route path="/add-department" element={<AddDepartment />} />
@@ -73,6 +75,8 @@ function App() {
               path="*"
               element={<Navigate to={isAuth ? "/Home" : "/Login"} replace />}
             />
+            {/** Rutas para Pagina Food order app, el main de esa app contentra su propio route */}
+            <Route path="/FoodOrderHomePage" element={<HomePage />} />
           </Routes>
           <Footer />
         </Container>
