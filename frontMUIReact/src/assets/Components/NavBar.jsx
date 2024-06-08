@@ -18,7 +18,6 @@ import styles from "./Navbar.module.css";
 import { isUserLoggedIn, logout } from "./services/AuthService";
 
 const pages = ["Home"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);

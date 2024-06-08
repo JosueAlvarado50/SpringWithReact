@@ -7,6 +7,7 @@ import com.SpringAndReact.SyRFullStack.entity.User;
 import com.SpringAndReact.SyRFullStack.exception.TodoAPIException;
 import com.SpringAndReact.SyRFullStack.repository.RoleRepository;
 import com.SpringAndReact.SyRFullStack.repository.UserRepository;
+import com.SpringAndReact.SyRFullStack.security.JwtTokenProvider;
 import com.SpringAndReact.SyRFullStack.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ public class AuthServiceImpl implements AuthService  {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
+    private JwtTokenProvider jwtTokenProvider;
 
     /**
      *
@@ -67,7 +69,8 @@ public class AuthServiceImpl implements AuthService  {
                 loginDto.getPassword()
         ));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "User login successfuly!.";
+        return jwtTokenProvider.generateToken(authentication);
+
     }
 
 }

@@ -2,9 +2,12 @@ import axios from "axios";
 const AUTH_REST_API_BASE_URL = "http://localhost:8081/api/auth";
 const USERNAME = "admin";
 const PASSWORD = "admin";
+export const getToken = () => {
+  localStorage.getItem("token");
+};
 
 const headers = {
-  Authorization: "Basic " + btoa(USERNAME + ":" + PASSWORD),
+  Authorization: getToken(),
   "Content-Type": "application/json", // Asegúrate de establecer el tipo de contenido adecuado si es necesario
 };
 export function registerAPICall(registerObj) {
@@ -20,9 +23,7 @@ export function loginAPICall(registerObj) {
 export const storedToken = (token) => {
   return localStorage.setItem("token", token);
 };
-export const getToken = () => {
-  localStorage.getItem("token");
-};
+
 export const saveLoggedInUser = (username) => {
   sessionStorage.setItem("authenticatedUser", username);
 };

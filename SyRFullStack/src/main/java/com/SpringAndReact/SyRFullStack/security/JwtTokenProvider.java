@@ -13,32 +13,51 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
+
     @Value("${app.jwt-secret}")
     private String jwtSecret;
-    @Value("${app.jwt-expiration-milliseconds}")
-    private Long jwtExpirationDate;
 
-    //Generate JWT Token
+    @Value("${app.jwt-expiration-milliseconds}")
+    private long jwtExpirationDate;
+
+    // Generate JWT token
     public String generateToken(Authentication authentication){
         String username = authentication.getName();
+
         Date currentDate = new Date();
+
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
 
-        return Jwts.builder().setIssuedAt(new Date()).setExpiration(expireDate).signWith(key()).compact();
+        String token = Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(expireDate)
+                .signWith(key())
+                .compact();
+
+        return token;
     }
+
     private Key key(){
         return Keys.hmacShaKeyFor(
                 Decoders.BASE64.decode(jwtSecret)
         );
     }
-    //Get username from JWT token
+
+    // Get username from JWT token
     public String getUsername(String token){
+        Claims claims = Jwts.parser()
+                .setSigningKey(key())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
 
-        Claims claims = Jwts.parser().setSigningKey(key()).build().parseClaimsJws(token).getBody();
-        return  claims.getSubject();
+        String username = claims.getSubject();
 
+        return username;
     }
-    //Validate JWT Token
+
+    // Validate JWT Token
     public boolean validateToken(String token){
         Jwts.parser()
                 .setSigningKey(key())
@@ -46,4 +65,5 @@ public class JwtTokenProvider {
                 .parse(token);
         return true;
     }
+
 }

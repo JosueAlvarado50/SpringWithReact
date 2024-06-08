@@ -24,7 +24,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableMethodSecurity
 @AllArgsConstructor
-@NoArgsConstructor
 public class SpringSecurityConfig {
 
     private UserDetailsService userDetailsService;

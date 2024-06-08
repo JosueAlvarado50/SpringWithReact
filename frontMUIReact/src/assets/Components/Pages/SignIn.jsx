@@ -87,14 +87,17 @@ export default function SignInSide() {
       setOpenSnackbar(true);
     } else {
       setLoading(true);
+
       loginAPICall(form)
         .then((response) => {
           console.log(response.data);
           console.log("Login successfuly");
-          const token =
-            "Basic" + window.btoa(form.usernameOrEmail + ":" + form.password);
+
+          //const token = "Basic" + window.btoa(form.usernameOrEmail + ":" + form.password);
+          const token = "Bearer" + response.data.accessToken;
           storedToken(token);
           saveLoggedInUser(form.usernameOrEmail);
+
           navigator("/");
           window.location.reload(false);
         })
