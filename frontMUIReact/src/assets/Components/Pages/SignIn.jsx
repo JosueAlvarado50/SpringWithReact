@@ -94,9 +94,10 @@ export default function SignInSide() {
           console.log("Login successfuly");
 
           //const token = "Basic" + window.btoa(form.usernameOrEmail + ":" + form.password);
-          const token = "Bearer" + response.data.accessToken;
+          const token = "Bearer " + response.data.accessToken;
+          const role = response.data.role;
           storedToken(token);
-          saveLoggedInUser(form.usernameOrEmail);
+          saveLoggedInUser(form.usernameOrEmail, role);
 
           navigator("/");
           window.location.reload(false);

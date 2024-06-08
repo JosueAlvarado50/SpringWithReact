@@ -2,12 +2,10 @@ import axios from "axios";
 const AUTH_REST_API_BASE_URL = "http://localhost:8081/api/auth";
 const USERNAME = "admin";
 const PASSWORD = "admin";
-export const getToken = () => {
-  localStorage.getItem("token");
-};
+export const getToken = () => {};
 
 const headers = {
-  Authorization: getToken(),
+  Authorization: localStorage.getItem("token"),
   "Content-Type": "application/json", // Asegúrate de establecer el tipo de contenido adecuado si es necesario
 };
 export function registerAPICall(registerObj) {
@@ -24,8 +22,9 @@ export const storedToken = (token) => {
   return localStorage.setItem("token", token);
 };
 
-export const saveLoggedInUser = (username) => {
+export const saveLoggedInUser = (username, role) => {
   sessionStorage.setItem("authenticatedUser", username);
+  sessionStorage.setItem("role", role);
 };
 export const isUserLoggedIn = () => {
   const username = sessionStorage.getItem("authenticatedUser");
@@ -43,4 +42,12 @@ export const logout = () => {
   localStorage.clear();
   sessionStorage.clear();
   window.location.reload(false);
+};
+export const isAdminUser = () => {
+  let role = sessionStorage.getItem("role");
+  if (role != null && role === "ROLE_ADMIN") {
+    return true;
+  } else {
+    return false;
+  }
 };

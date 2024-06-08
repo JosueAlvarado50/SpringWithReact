@@ -1,10 +1,10 @@
 import axios from "axios";
-const REST_API_BASE_URL = "http://localhost:8080/api/departments";
+const REST_API_BASE_URL = "http://localhost:8081/api/departments";
 const USERNAME = "admin";
 const PASSWORD = "admin";
 
 const headers = {
-  Authorization: "Basic " + btoa(USERNAME + ":" + PASSWORD),
+  Authorization: localStorage.getItem("token"),
   "Content-Type": "application/json", // Asegúrate de establecer el tipo de contenido adecuado si es necesario
 };
 

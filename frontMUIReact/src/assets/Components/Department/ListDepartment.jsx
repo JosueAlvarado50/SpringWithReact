@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { isAdminUser } from "../services/AuthService";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -39,6 +40,7 @@ function ListDepartment() {
   const [department, setDepartment] = useState([]);
   const navigator = useNavigate();
   const [deletedD, setDeletedD] = useState(false);
+  const isAdmin = isAdminUser();
 
   useEffect(() => {
     departmentList()
@@ -74,7 +76,7 @@ function ListDepartment() {
       }}
       component={Paper}
     >
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table sx={{ minWidth: 450 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>ID</StyledTableCell>
@@ -95,26 +97,31 @@ function ListDepartment() {
               <StyledTableCell align="center">
                 {dep.departmentDescription}
               </StyledTableCell>
-              <StyledTableCell align="center">
-                <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<EditIcon />}
-                    onClick={() => handleEdit(dep.id)}
+              {isAdmin && (
+                <StyledTableCell align="center">
+                  <Box
+                    sx={{ display: "flex", justifyContent: "center", gap: 2 }}
                   >
-                    Editar
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    startIcon={<DeleteIcon />}
-                    onClick={() => handleDelete(dep.id)}
-                  >
-                    Eliminar
-                  </Button>
-                </Box>
-              </StyledTableCell>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<EditIcon />}
+                      onClick={() => handleEdit(dep.id)}
+                    >
+                      Editar
+                    </Button>
+
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      startIcon={<DeleteIcon />}
+                      onClick={() => handleDelete(dep.id)}
+                    >
+                      Eliminar
+                    </Button>
+                  </Box>
+                </StyledTableCell>
+              )}
             </StyledTableRow>
           ))}
         </TableBody>
