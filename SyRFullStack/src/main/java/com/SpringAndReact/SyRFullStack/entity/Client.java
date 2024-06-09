@@ -16,12 +16,19 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
+    private String phoneNumber;
+
     @Column(nullable = false)
     private String street;
+
     @Column(nullable = false)
     private String postalCode;
+
     @Column(nullable = false)
     private String city;
 }
