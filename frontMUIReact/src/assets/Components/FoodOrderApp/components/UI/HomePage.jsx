@@ -3,6 +3,7 @@ import CartProvider from "../../store/CartProvider";
 import Cart from "../Cart/Cart";
 import { Container, Box } from "@mui/material";
 import Header from "../Layout/Header";
+import Meals from "../Meals/Meals";
 
 function HomePage() {
   const [cartIsShowCart, setCartIsShowCart] = useState(false);
@@ -28,6 +29,9 @@ function HomePage() {
         <Container maxWidth="md">
           {cartIsShowCart && <Cart onHideCart={hideCartHandler}></Cart>}
         </Container>
+        <main>
+          <Meals onShowCart={showCartHandler}></Meals>
+        </main>
       </CartProvider>
     </Box>
   );
