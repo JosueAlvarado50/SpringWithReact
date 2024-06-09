@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import { useContext } from "react";
 import MealItemForm from "./MealItemForm";
 import CartContext from "../../../store/CartContext";
-
+import classes from "./MealItem.module.css";
 const MealItem = (props) => {
   const cartCtx = useContext(CartContext);
   const price = `$${props.price.toFixed(2)}`; //?aqui sirve para solo tomar los decimales que se necesitan

@@ -53,7 +53,7 @@ const Navbar = () => {
       sx={{
         borderRadius: "30px",
         marginTop: "5px",
-        backgroundColor: "rgba(36, 36, 36, 0.8)",
+        backgroundColor: "rgba(36, 36, 36, 0.94)",
       }}
     >
       <Container maxWidth="xl">
