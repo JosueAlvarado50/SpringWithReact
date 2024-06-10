@@ -64,4 +64,12 @@ public class MealServiceImpl implements MealService {
     mealRepository.deleteById(mealId);
         System.out.println("Meal deleted successfully!");
     }
+
+    @Override
+    public Meal getMealEntityById(Long mealId) {
+        return mealRepository.findById(mealId)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Meal not found: " + mealId)
+                );
+    }
 }
