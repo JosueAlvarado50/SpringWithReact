@@ -8,8 +8,7 @@ public interface MealService {
 MealDto addMeal(MealDto mealDto);
 MealDto getMealById(Long mealId);
 List<MealDto> getAllMeals();
-MealDto updateMeal(Long mealId, MealDto UpdatedMeal);
-
-    void deleteMeal(Long mealId);
+MealDto updateMeal(Long mealId, MealDto updatedMeal);
+void deleteMeal(Long mealId);
 
 }
