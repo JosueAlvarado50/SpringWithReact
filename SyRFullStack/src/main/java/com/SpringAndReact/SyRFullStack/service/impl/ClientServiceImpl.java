@@ -12,25 +12,26 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 @AllArgsConstructor
+@Service
 public class ClientServiceImpl implements ClientService {
-    ClientRepository clientRepository;
+    private ClientRepository clientRepository;
     private ModelMapper modelMapper;
 
     @Override
     public ClientDto addClient(ClientDto clientDto) {
-
+        //primero le damos formato al client que sera instancia
         Client client = modelMapper.map(clientDto, Client.class);
+        //ahora creamos el cliente en la DB
         Client savedClient = clientRepository.save(client);
         return modelMapper.map(savedClient, ClientDto.class);
     }
 
     @Override
-    public ClientDto getClientById(Long clientId) {
+    public ClientDto getClient(Long clientId) {
         Client client = clientRepository.findById(clientId)
                 .orElseThrow(
-                        () -> new ResourceNotFoundException("Client Not found:" + clientId)
+                        () -> new ResourceNotFoundException("Client not found: " + clientId)
                 );
         return modelMapper.map(client, ClientDto.class);
     }
@@ -45,35 +46,27 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDto updateClient(Long clientId, ClientDto updatedClient) {
+    public ClientDto updateClient(Long clientId, ClientDto clientDto) {
         Client client = clientRepository.findById(clientId)
                 .orElseThrow(
-                        () -> new ResourceNotFoundException("Client not found: "+clientId)
+                        () -> new ResourceNotFoundException("Client not found: "+ clientId)
                 );
-        client.setName(updatedClient.getName());
-        client.setPhoneNumber(updatedClient.getPhoneNumber());
-        client.setStreet(updatedClient.getStreet());
-        client.setPostalCode(updatedClient.getPostalCode());
-        client.setCity(updatedClient.getCity());
-        clientRepository.save(client);
-        return modelMapper.map(client, ClientDto.class);
+        client.setName(clientDto.getName());
+        client.setPhone_Number(clientDto.getPhone_Number());
+        client.setStreet(clientDto.getStreet());
+        client.setPostal_Code(clientDto.getPostal_Code());
+        client.setCity(clientDto.getCity());
+        Client updatedClient = clientRepository.save(client);
+        return modelMapper.map(updatedClient, ClientDto.class);
     }
 
     @Override
     public void deleteClient(Long clientId) {
-        Client clientToDelete = clientRepository.findById(clientId)
+        Client client = clientRepository.findById(clientId)
                 .orElseThrow(
-                        () -> new ResourceNotFoundException("Client not found")
+                        () -> new ResourceNotFoundException("client not found: "+clientId)
                 );
         clientRepository.deleteById(clientId);
-        System.out.println("Client deleted!");
-    }
 
-    @Override
-    public Client getClientEntityById(Long clientId) {
-        return clientRepository.findById(clientId)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Client not found: " +clientId)
-                );
     }
 }
