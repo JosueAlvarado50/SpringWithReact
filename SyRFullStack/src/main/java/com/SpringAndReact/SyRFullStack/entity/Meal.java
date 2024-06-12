@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.Set;
 
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -27,4 +28,5 @@ public class Meal {
     private BigDecimal price;
     @ManyToMany(mappedBy = "meals")
     private Set<Order> orders;
+
 }
