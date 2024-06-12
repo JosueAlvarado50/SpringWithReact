@@ -16,6 +16,11 @@ import java.util.List;
 public class ClientController {
     private ClientService clientService;
 
+    /**
+     *
+     * @param clientDto
+     * @return
+     */
     @PostMapping
     public ResponseEntity<ClientDto> addClient(@RequestBody ClientDto clientDto){
         ClientDto createdClient = clientService.addClient(clientDto);
