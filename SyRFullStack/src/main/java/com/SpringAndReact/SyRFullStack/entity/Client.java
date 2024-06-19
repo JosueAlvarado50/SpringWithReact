@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,5 +28,7 @@ public class Client {
     private String postal_Code;
     @Column(nullable = false)
     private String city;
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Order> orders;
 
 }

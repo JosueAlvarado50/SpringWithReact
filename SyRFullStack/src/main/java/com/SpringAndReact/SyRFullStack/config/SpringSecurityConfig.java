@@ -44,7 +44,10 @@ public class SpringSecurityConfig {
             authorize.requestMatchers("/api/auth/**").permitAll();
             authorize.requestMatchers("/api/departments/**").permitAll();
             authorize.requestMatchers("/api/meals/**").permitAll();
+            authorize.requestMatchers("/api/food-order-app/order/**").permitAll();
             authorize.requestMatchers("/api/food-order-app/client/**").permitAll();
+            authorize.requestMatchers("/ api/food-order-app/orderDetail/**").permitAll();
+
             authorize.requestMatchers(HttpMethod.OPTIONS, "/**");
             authorize.anyRequest().authenticated();
         }).httpBasic(Customizer.withDefaults());

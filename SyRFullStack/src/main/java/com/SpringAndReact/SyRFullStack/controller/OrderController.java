@@ -1,9 +1,12 @@
 package com.SpringAndReact.SyRFullStack.controller;
 
+import com.SpringAndReact.SyRFullStack.dto.OrderDetailDto;
 import com.SpringAndReact.SyRFullStack.dto.OrderDto;
 import com.SpringAndReact.SyRFullStack.entity.Order;
+import com.SpringAndReact.SyRFullStack.service.OrderDetailService;
 import com.SpringAndReact.SyRFullStack.service.OrderService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +18,17 @@ import java.util.List;
 @RequestMapping("/api/food-order-app/order")
 @RestController
 public class OrderController {
+
+    @Autowired
     private OrderService orderService;
+    @Autowired
+    private OrderDetailService orderDetailService;
     @PostMapping
     public ResponseEntity<OrderDto> addOrder(@RequestBody OrderDto orderDto){
         OrderDto orderToCreate = orderService.addOrder(orderDto);
         return new ResponseEntity<>(orderToCreate, HttpStatus.CREATED);
     }
+
     @GetMapping("{id}")
     public ResponseEntity<OrderDto> getOrderById(@PathVariable(name = "id") Long orderId){
         OrderDto orderDto = orderService.getOrderById(orderId);
@@ -43,8 +51,21 @@ public class OrderController {
         return ResponseEntity.ok("Order was deleted successfully");
     }
 
-    @PostMapping("/insert-meals-to-order")
-    public Order insertMealToOrder(@RequestBody OrderDto orderDto){
-        return orderService.createOrderWithMeals(orderDto);
+    @PostMapping("/{orderId}/order-details")
+    public ResponseEntity<OrderDto> addOrderDetailToOrder(@PathVariable Long orderId, @RequestBody OrderDetailDto orderDetailDto){
+    orderDetailDto.setOrderId(orderId);
+    orderDetailService.createOrderDetail(orderDetailDto);//crear el detalle de orden
+        //obtener la orden actualizada despues de agregar el detalle
+        OrderDto updatedOrderDto = orderService.getOrderById(orderId);
+
+        return new ResponseEntity<>(updatedOrderDto, HttpStatus.OK);
     }
+    @PutMapping("/close/{id}")
+    public ResponseEntity<OrderDto> closeOrder(@PathVariable Long orderId){
+        OrderDto orderDto = orderService.closeOrder(orderId);
+        return new ResponseEntity<>(orderDto, HttpStatus.OK);
+
+    }
+
+
 }

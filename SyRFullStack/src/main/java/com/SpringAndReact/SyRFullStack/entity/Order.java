@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 
@@ -22,8 +24,12 @@ public class Order {
     private Long id;
     @Column(nullable = false)
     private Date orderDateIn;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "Orders_meals", joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "meal_id", referencedColumnName = "id "))
-    private Set<Meal> meals;
+    @Column(nullable = false)
+    private BigDecimal total_amount;
+    @ManyToOne
+    @JoinColumn(name = "clientId")
+    private Client client;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OrderDetail> orderDetails;
 
 }

@@ -11,7 +11,7 @@ public interface OrderService {
     OrderDto getOrderById(Long orderId);
     List<OrderDto> getAllOrders();
     OrderDto UpdateOrder(Long orderId, OrderDto orderDto);
+    OrderDto closeOrder(Long orderId);
     void deleteOrder(Long orderId);
-    Order createOrderWithMeals(OrderDto orderDto);
 
 }

@@ -4,6 +4,7 @@ import com.SpringAndReact.SyRFullStack.dto.MealDto;
 import com.SpringAndReact.SyRFullStack.entity.Meal;
 import com.SpringAndReact.SyRFullStack.service.MealService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,13 @@ import java.util.List;
 @CrossOrigin("*")
 @RestController
 public class MealController {
-    MealService mealService;
+    @Autowired
+    private MealService mealService;
 
     @PostMapping
     public ResponseEntity<MealDto> addMeal(@RequestBody MealDto mealDto){
         MealDto mealToCreate = mealService.addMeal(mealDto);
-        return new ResponseEntity<>(mealToCreate, HttpStatus.OK);
+        return new ResponseEntity<>(mealToCreate, HttpStatus.CREATED);
     }
 
     @GetMapping

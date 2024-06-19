@@ -6,26 +6,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.Set;
-
-
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "OrderDetail")
 @Entity
-@Table(name = "meals")
-public class Meal {
+public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String name;
-    @Column(nullable = false)
-    private String description;
-    @Column(nullable = false)
-    private BigDecimal price;
 
+    @ManyToOne
+    @JoinColumn(name = "orderId", nullable = false)
+    private Order order;
 
+    @ManyToOne
+    @JoinColumn(name = "mealId", nullable = false)
+    private Meal meal;
+
+    @Column(name = "amount", nullable = false)
+    private int amount;
 }
