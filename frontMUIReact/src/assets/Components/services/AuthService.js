@@ -15,7 +15,9 @@ export function registerAPICall(registerObj) {
 }
 export function loginAPICall(registerObj) {
   return axios.post(AUTH_REST_API_BASE_URL + "/login", registerObj, {
-    headers: headers,
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 }
 export const storedToken = (token) => {

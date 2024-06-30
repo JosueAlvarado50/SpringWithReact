@@ -3,18 +3,20 @@ import { useRef, useState } from "react";
 import classes from "./Checkout.module.css";
 import { Box, Button, TextField } from "@mui/material";
 
-const isEmpty = (value) => value.trim().length !== 5;
-const isNotFiveChars = (value) => value.trim().length !== 5;
-
+const isEmpty = (value) => value.trim().length == 0;
+const isNotFiveChars = (value) => value.trim().length > 4;
+//!falta agregar phone number para validar que el usuario exista
 const Checkout = (props) => {
   const [formInputsValidity, setFormInputsValidity] = useState({
     name: true,
+    phoneNumber: true,
     street: true,
     postalCode: true,
     city: true,
   });
 
   const nameInputRef = useRef();
+  const phoneNumberInputRef = useRef();
   const streetInputRef = useRef();
   const postalCodeInputRef = useRef();
   const cityInputRef = useRef();
@@ -22,11 +24,13 @@ const Checkout = (props) => {
   const confirmHandler = (event) => {
     event.preventDefault();
     const enteredName = nameInputRef.current.value;
+    const enteredPhoneNumber = phoneNumberInputRef.current.value;
     const enteredStreet = streetInputRef.current.value;
     const enteredPostalCode = postalCodeInputRef.current.value;
     const enteredCity = cityInputRef.current.value;
 
     const enteredNameIsValid = !isEmpty(enteredName);
+    const enteredPhoneNumberIsValid = !isEmpty(enteredPhoneNumber);
     const enteredStreetIsValid = !isEmpty(enteredStreet);
     const enteredPostalCodeIsValid =
       !isEmpty(enteredPostalCode) && isNotFiveChars(enteredPostalCode);
@@ -34,6 +38,7 @@ const Checkout = (props) => {
 
     setFormInputsValidity({
       name: enteredNameIsValid,
+      phoneNumber: enteredPhoneNumberIsValid,
       street: enteredStreetIsValid,
       postalCode: enteredPostalCodeIsValid,
       city: enteredCityIsValid,
@@ -41,6 +46,7 @@ const Checkout = (props) => {
 
     const formIsValid =
       enteredNameIsValid &&
+      enteredPhoneNumberIsValid &&
       enteredStreetIsValid &&
       enteredPostalCodeIsValid &&
       enteredCityIsValid;
@@ -55,6 +61,7 @@ const Checkout = (props) => {
     //submit cart data
     props.onConfirm({
       name: enteredName,
+      phoneNumber: enteredPhoneNumber,
       street: enteredStreet,
       postalCode: enteredPostalCode,
       city: enteredCity,
@@ -83,6 +90,19 @@ const Checkout = (props) => {
           inputRef={nameInputRef}
           error={!formInputsValidity.name}
           helperText={!formInputsValidity.name && "Please enter a valid name!"}
+        />
+      </Box>
+      <Box className={classes.control}>
+        <TextField
+          label="Your Phone number"
+          variant="outlined"
+          fullWidth
+          inputRef={phoneNumberInputRef}
+          error={!formInputsValidity.phoneNumber}
+          helperText={
+            !formInputsValidity.phoneNumber &&
+            "Please enter a valid phone number!"
+          }
         />
       </Box>
       <Box className={classes.control}>

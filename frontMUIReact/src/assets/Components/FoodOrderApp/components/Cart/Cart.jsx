@@ -1,19 +1,42 @@
 /* eslint-disable react/prop-types */
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import CartContext from "../../store/CartContext";
 import CartItem from "./CartItem";
 import classes from "./CartItem.module.css";
 import Modal from "../UI/Modal";
 import Checkout from "./Checkout";
+import { createOrder } from "../../services/OrderService";
 
 const Cart = (props) => {
   const [isCheckout, setIsCheckout] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [didSubmit, setDidSubmit] = useState(false);
+  const [cuenta, setCuenta] = useState({
+    orderDateIn: new Date(),
+    total_amount: 0.0,
+    clientId: 0,
+    orderDetails: [],
+  });
 
   const cartCtx = useContext(CartContext);
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0;
+
+  useEffect(() => {
+    const preOrder = async () => {
+      try {
+        const response = await createOrder(cuenta);
+        console.log("Creando cuenta");
+        console.log(response);
+        setCuenta(response);
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    };
+    preOrder();
+  }, [cuenta]);
 
   const cartItemRemoveHandler = (id) => {
     cartCtx.removeItem(id);

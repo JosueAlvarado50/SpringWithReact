@@ -1,5 +1,5 @@
 import axios from "axios";
-const REST_API_BASE_URL = "http://localhost:8081/api/foodorderapp/meals";
+const REST_API_BASE_URL = "http://localhost:8081/api/food-order-app/meal";
 const USERNAME = "admin";
 const PASSWORD = "admin";
 
